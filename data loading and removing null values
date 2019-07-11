@@ -1,0 +1,35 @@
+# create spark and sparkcontext objects
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.getOrCreate()
+sc = spark.sparkContext
+
+# creating dataframes
+airlines = spark.read.format("csv").option("header", "true").load("airlines.csv")
+airports = spark.read.format("csv").option("header", "true").load("airports.csv")
+flights = spark.read.format("csv").option("header", "true").load("flights.csv")
+
+# displaying and counting airlines dataset elements
+airlines.show()
+airlines.count()
+
+# displaying and counting airports dataset elements
+airports.show()
+airports.count()
+
+# displaying and counting flights dataset elements
+flights.show()
+flights.count()
+
+# calculating the column count
+len(flights.columns), flights.columns
+
+flights_df = flights.drop('CANCELLATION_REASON',
+                          'AIR_SYSTEM_DELAY',
+                          'SECURITY_DELAY',
+                          'AIRLINE_DELAY',
+                          'LATE_AIRCRAFT_DELAY',
+                          'WEATHER_DELAY')
+
+# displaying the flights dataset after removing null values
+flights_df.show()
+
